@@ -1,133 +1,115 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
-        <meta charset="UTF-8">
-            <title>Laundromat</title>
-            <meta name="viewport" content="width=device-width, initial-scale=1">
-                <link rel="stylesheet" href="jquery.mobile.structure-1.0.1.css" />
-                <link rel="apple-touch-icon" href="images/launch_icon_57.png" />
-                <link rel="apple-touch-icon" sizes="72x72" href="images/launch_icon_72.png" />
-                <link rel="apple-touch-icon" sizes="114x114" href="images/launch_icon_114.png" />
-                <link rel="stylesheet" href="jquery.mobile-1.0.1.css" />
-                <link rel="stylesheet" href="custom.css" />
-                <script src="js/jquery-1.7.1.min.js"></script>
-                <script src="js/jquery.mobile-1.0.1.min.js"></script>
-    </head>
-    <body>
-        <div id="restau" data-role="page" data-add-back-btn="true">
-            
-            
-            <div data-role="content">
-                <div class="ui-grid-a" id="restau_infos">
-                    <div class="ui-block-a">
-                        <h1> Laundromat1</h1>
-                        <p><strong>  Provide the best cleaning service near the univerisity</strong></p>
-                        <h2> Service </h2>
-                        <ul>
-                            <form action="/" method="get">
-                            Number of available machine:
-                            <input type="text" name="maxmachine">
-                            <br>
-                            Price/pants:
-                                <input type="number" name="pantsprice">
-                                <br>
-                                Price/shirt:
-                                <input type="number" name="shirtssprice">
-                                <br>
-                                Price/coat:
-                                <input type="number" name="shirtssprice">
-                                        <br><br>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+            <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+                <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+                        <style>
+                            body {font-family: "Lato", sans-serif}
+                            .mySlides {display: none}
+                            </style>
+        <script>
+            function TotalItem(qty,ud,total,value){
+                qty=document.getElementById(qty);
+                ud>0?qty.value++:qty.value--;
+                qty.value=Math.max(qty.value,0);
+                document.getElementById(total).value=qty.value*value;
+            }
+        
+         function Total(total,total1,total2,total3,total4,total5,total6){
+           total1=document.getElementById(total1);
+            total2=document.getElementById(total2);
+           total3=document.getElementById(total3);
+            total4=document.getElementById(total4);
+            total5=document.getElementById(total5);
+            total6=document.getElementById(total6);
+            total1.value=Math.max(total1.value,0);
+            total2.value=Math.max(total2.value,0);
+            total3.value=Math.max(total3.value,0);
+            total4.value=Math.max(total4.value,0);
+            total5.value=Math.max(total5.value,0);
+            total6.value=Math.max(total6.value,0);
 
-                            </form>
-                            
-                        </ul>
-                    </div>
-                    <div class="ui-block-b">
-                        <img src="static/images/restau01.jpg">
+            document.getElementById(total).value=total1.value+total2.value+total3.value+total4.value+total5.value+total6.value;
+       }
+        
+
+        </script>
+        
+        
+         <script type="text/javascript">
+             function findTotal(){
+                 var arr = document.getElementsByName('total');
+                 var tot=0;
+                 for(var i=0;i<arr.length;i++){
+                     if(parseInt(arr[i].value))
+                     tot += parseInt(arr[i].value);
+                 }
+                 document.getElementById('totalsum').value = tot;
+             }
+         </script>
+             
+    </head>
     
-                        <p><a href="http://www.google.fr" rel="external" data-role="button"> See our website</a></p>
-                    </div>
-                </div><!-- /grid-a -->
-                <hr/>
-                
-                <div class="ui-grid-a" id="contact_infos">
-                    <div class="ui-block-a">
-                        <h2> Contact us</h2>
-                        <p>116th Broadway</p>
-                        <p> 10025 NY New York</p>
-                    </div>
-                    <div class="ui-block-b">
-                        <img src="static/images/01_maps.jpg" alt="plan jeanette"/>
-                    </div>
-                </div><!-- /grid-a -->
-                <div id="contact_buttons">
-                    <a href="http://maps.google.fr/maps?q=jeannette+et+les+cycleux&hl=fr&sll=46.75984,1.738281&sspn=10.221882,18.764648&hq=jeannette+et+les+cycleux&t=m&z=13&iwloc=A" data-role="button" data-icon="maps"> Find us on Google Maps </a>
-                    <a href="tel:0388161072"  data-role="button" data-icon="tel"> Call us </a>
-                </div>
-                <hr/>
-                
-                <div class="ui-grid-a" id="contact_infos">
-                    <div class="ui-block-a">
-                        <h2> Place order</h2>
-                        <form action="/" method="post">
-                            Number of pants:
-                            <input type="text" name="maxmachine">
-                                <br>
-                                Number of shirts:
-                                <input type="number" name="pantsprice">
-                                    <br>
-                                    Number of coats
-                                    <input type="number" name="shirtssprice">
-                                        <br>
-                                        Time to pick up:
-                                    <input type="number" name="deliveraddress">
-                                        
-                                        <br>
-                                        Delivery address:
-                                        <input type="number" name="shirtssprice">
-                    </div>
-                <!-- /grid-a -->
-                
-                
-                
-                                    
-                
-                <div id="notation">
-                    <form>
-                        <label for="select-choice-0" class="select"><h2> User rating </h2></label>
-                        <select name="note_utilisateur" id="note_utilisateur" data-native-menu="false" data-theme="c" >
-                            <option value="one" class="one"> Not good at all </option>
-                            <option value="two" class="two">Average </option>
-                            <option value="three" class="three">Pretty good </option>
-                            <option value="four" class="four"> Excellent </option>
-                        </select>	
-                    </form>
-                </div>
-                
-                
-                <script type="text/javascript">
+    
+   <div class="w3-container w3-black">
+        <h1>Laudromat</h1>
+   </div>
                     
-                    $( '#restau' ).live( 'pageinit',function(event){
-                                        var SelectedOptionClass = $('option:selected').attr('class');
-                                        $('div.ui-select').addClass(SelectedOptionClass);
-                                        
-                                        $('#note_utilisateur').live('change', function(){	 
-                                                                    $('div.ui-select').removeClass(SelectedOptionClass);
-                                                                    
-                                                                    SelectedOptionClass = $('option:selected').attr('class');
-                                                                    $('div.ui-select').addClass(SelectedOptionClass);		
-                                                                    
-                                                                    });
-                                        
-                                        
-                                        });
-                                        
-                    </script>
+    <body>
+        
+        <div class="w3-container w3-teal w3-half style="margin:46px; margin-top:46px" >
+        
+        <div class="slider-vertical"></div>
+        <div id="purhcaseForm">
+        
+  
+
+
+            {% for n in priceList %}
+
+
+            <form id="purchase">
+                <label class="w3-label w3-large w3-text-black"><b>"{{n}}"</b></label>
+                <br> Item Price: ${{n}}
+                <br> Please Select Quantity
+                <input type='button' name='subtract' onclick='TotalItem("qty{{loop.index}}",-1,"total{{loop.index}}",{{n}}); findTotal();' value='-'/>
+                <input type='button' name='add' onclick='TotalItem("qty{{loop.index}}",1,"total{{loop.index}}",{{n}}); findTotal();' value='+'/>
+                <input type='text' name='qty' id='qty{{loop.index}}' readonly=true value="0"/>
+                <input type='text'   name='total' id='total{{loop.index}}' value="0" />
                 
-                
-            </div>
+            </form>
+
+            {% endfor %}
+            <br>
             
+            <form id="purchase" class="w3-row">
             
-        </div><!-- /page -->
+                <label class="w3-label  w3-large w3-text-white"><b>Total</b></label>
+                 <input class="w3-input w3-border " type="text" name="totalsum" id="totalsum">
+           
+                     <p class="w3-center ">
+                      <button class="w3-btn w3-margin w3-light-grey w3-large w3-ripple"> Place order</button>
+                       </p>
+                      </form>
+                    </div>
+        </div>
+        
+
+        
+        
+        <div class="w3-half w3-container style="margin-top:306px">
+       <div class="w3-topbar w3-border-orange w3-padding-top" style="margin-top:30px" >
+           <img src="/static/images/restau01_mini.jpg" style="width:50%">
+      <h2>Laundromat1</h2>
+      <p>116th Broadway</p>
+      <p>New York NY 10025</p>
+   
+
+
+        </div>
+        
+        
     </body>
 </html>

@@ -1,39 +1,48 @@
-<head>
-
-    <link href='http://fonts.googleapis.com/css?family=Titillium+Web:400,300,600' rel='stylesheet' type='text/css'>
+<!DOCTYPE html>
+<html></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
-<div class="form">
+        <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+            <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+                    <style>
+                        body {font-family: "Lato", sans-serif}
+                        .mySlides {display: none}
+                        </style>
+                    
+<div class="w3-container w3-black">
+    <h1>Log in</h1>
+</div>
+
+ <div class="w3-container w3-content w3-center w3-padding-64" style="max-width:600px; max-height:400px" id="login">
+     
+
+
+
+<form action="{{ url_for('login') }}" class="w3-container w3-card-4 w3-light-grey w3-text-blue w3-margin" method="post">
+    <h2 class="w3-center">Welcome back!</h2>
     
-    <div class="tab-content">
-        
-        <div id="login">
-            <h1>Welcome Back!</h1>
-            
-            <form action="{{ url_for('login') }}" method="post">
-                
-                <div class="field-wrap">
-                    <label>
-                        Email Address<span class="req">*</span>
-                    </label>
-                    <input type="email" name=email required autocomplete="on"/>
-                </div>
-                
-                <div class="field-wrap">
-                    <label>
-                        Password<span class="req">*</span>
-                    </label>
-                    <input type="password" name=password required autocomplete="off"/>
-                </div>
-                
-                <p class="forgot"><a href="#">Forgot Password?</a></p>
-                
-                <button class="button button-block"/>Log In</button>
-                
-            </form>
-            
+    <div class="w3-row w3-section">
+        <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-envelope-o"></i></div>
+        <div class="w3-rest">
+         
+        <input class="w3-input w3-border" name="email" type="text" placeholder="Email">
         </div>
-        
-    </div><!-- tab-content -->
+    </div>
     
-</div> <!-- /form -->
+    <div class="w3-row w3-section">
+        <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-pencil"></i></div>
+        
+        <div class="w3-rest">
+            
+        <input class="w3-input w3-border" name="password" type="password" placeholder="Password">
+        </div>
+    </div>
+    
+    <p class="w3-center">
+    <button class="w3-btn w3-section w3-blue w3-large w3-ripple"> Log in </button>
+    </p>
+    
+
+</form><!-- /form -->
+
+</html>

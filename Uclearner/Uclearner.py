@@ -17,11 +17,12 @@ app.debug = True
 
 @app.route("/")
 def template_test():
-    return render_template('template.html', my_string="Wheeeee!", my_list=[0,1,2,3,4,5], title="Tao")
+    return render_template('template.html', my_string="Wheeeee!", my_list=["L1","L2"], title="Tao")
+
 
 @app.route("/about")
 def about():
-    return render_template('laundromat.html')
+    return render_template('laundromat.html',priceList=[10,20,30,40,50,60])
 
 @app.route("/signup")
 def signup():
