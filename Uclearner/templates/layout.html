@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-    <title>W3.CSS Template</title>
+    <title>{% block title %}{{title}}{% endblock %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
             <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
@@ -58,8 +58,10 @@
                            
                                 <div class="w3-display-middle">
                                     <div class="w3-col m10">
-                                        <input class="w3-input  w3-border" type="text" placeholder="Zip code">
-                                            </div>
+                                        <form method="POST" action="/search">
+                                    <input class="w3-input  w3-border" type="text" name ="term" placeholder="Zip code">
+                                        </form>
+                                    </div>
                                     <div class="w3-col m2">
                                         <button class="w3-btn  w3-large w3-hover-green">Search</button>
                                     </div>
@@ -72,12 +74,13 @@
                                 <h2>Nearby Laundromat</h2>
                                 
                                 <ul class="w3-ul w3-card-1  w3-white style="max-width:200px">
-                                    {% for n in range(5) %}
+                                    {% for n in my_list %}
                                     <li class="w3-padding-16">
                                         <img src="/static/images/restau03_mini.jpg" class="w3-left w3-circle w3-margin-right" style="width:60px">
-                                            <span class="w3-large"><a href="L1">502 W 113th St</a></span><br>
+                                            <span class="w3-large"><a href="/store/profile/{{n[0]}}">{{n[1]}}</a></span><br>
+                                            <span class="w3-large"><a href="/store/profile/{{n[0]}}">{{n[2]}}</a></span><br>
                                             <div class="rating">
-                                                {% for n in range(5) %}
+                                                {% for l in range(n[3]) %}
                                                 <span>★</span>
                                                 {% endfor %}
                                              
@@ -87,7 +90,6 @@
                                 </ul>
                             </div>
                             <div class="w3-container w3-teal style="max-width:200px">
-                            <H5> End </H5>
                             </div>
 
 
