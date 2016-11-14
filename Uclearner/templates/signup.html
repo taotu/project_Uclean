@@ -16,31 +16,130 @@
 
 <div class="w3-container w3-content w3-center w3-padding-64" style="max-width:600px; max-height:400px" id="signup">
 
-<div class="w3-container w3-light-grey">
-    <h3>Free sign up!</h3>
-</div>
 
-<form  class="w3-container w3-blue" action="{{ url_for('signup') }}" method="POST" name="personal">
+    <form action="{{ url_for('signup') }}" class="w3-container w3-card-4 w3-light-grey w3-text-blue w3-margin" method="post">
+    <h2 class="w3-center">Free Sign Up!</h2>
     
+    <div class="w3-row w3-section">
+        <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-envelope-o"></i></div>
+        <div class="w3-rest">
+         
+        <input class="w3-input w3-border" name="firstname" type="text" placeholder="first name">
+        </div>
+    </div>
+    
+    <div class="w3-row w3-section">
+        <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-pencil"></i></div>
         
+        <div class="w3-rest">
+            
+        <input class="w3-input w3-border" name="lastname" type="text" placeholder="last name">
+        </div>
+    </div>
+
+    <div class="w3-row w3-section">
+        <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-pencil"></i></div>
+        
+        <div class="w3-rest">
+            
+        <input class="w3-input w3-border" name="password" type="password" placeholder="password">
+        </div>
+    </div>
+
+    <div class="w3-row w3-section">
+        <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-pencil"></i></div>
+        
+        <div class="w3-rest">
+            
+        <input class="w3-input w3-border" name="email" type="email" placeholder="email">
+        </div>
+    </div>
+
+    <div class="w3-row w3-section">
+        <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-pencil"></i></div>
+        
+        <div class="w3-rest">
+            
+        <input class="w3-input w3-border" name="phone" type="text" placeholder="phone">
+        </div>
+    </div>
+
+    <div class="w3-row w3-section">
+        <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-pencil"></i></div>
+        
+        <div class="w3-rest">
+            
+        <input class="w3-input w3-border" name="address-1" type="text" placeholder="Address line 1">
+        </div>
+    </div>
+
+    <div class="w3-row w3-section">
+        <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-pencil"></i></div>
+        
+        <div class="w3-rest">
+            
+        <input class="w3-input w3-border" name="apt" type="text" placeholder="Apartment #">
+        </div>
+    </div>
+
+    <div class="w3-row w3-section">
+        <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-pencil"></i></div>
+        
+        <div class="w3-rest">
+            
+        <input class="w3-input w3-border" name="city" type="text" placeholder="City">
+        </div>
+    </div>
+
+    <div class="w3-row w3-section">
+        <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-pencil"></i></div>
+        
+        <div class="w3-rest">
+            
+        <input class="w3-input w3-border" name="state" type="text" placeholder="State">
+        </div>
+    </div>
+
+    <div class="w3-row w3-section">
+        <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-pencil"></i></div>
+        
+        <div class="w3-rest">
+            
+        <input class="w3-input w3-border" name="zipcode" type="text" placeholder="Zip code">
+        </div>
+    </div>
+
+
+    
+    <p class="w3-center">
+    <button class="w3-btn w3-section w3-blue w3-large w3-ripple"> Sign up </button>
+    </p>
+    
+
+</form><!-- /form -->
+
+<!-- <form  class="w3-container w3-blue" action="/signup" method="POST">
+    
+        <div>
         <label class="w3-label w3-large w3-text-white"><b>First Name</b></label>
         <input class="w3-input w3-border" type="text" name="firstname">
+        </div>  
             
-            
+        <div>
         <label class="w3-label w3-large w3-text-white"><b>Last Name</b></label>
-        <input class="w3-input w3-border" type="text",name="lastname">
-        
+        <input class="w3-input w3-border" type="text",name="lastname", id="lastname">
+        </div>
         <label class="w3-label w3-large w3-text-white"><b>Email</b></label>
-        <input class="w3-input w3-border" type="email",name="email">
+        <input class="w3-input w3-border" type="text",name="email">
             
         <label class="w3-label w3-large w3-text-white"><b>Set Password</b></label>
-        <input class="w3-input w3-border" type="password",name="password">
+        <input class="w3-input w3-border" type="text",name="password">
         
         <label class="w3-label w3-large w3-text-white"><b>Date of Birth</b></label>
-        <input class="w3-input w3-border" type="date",name="birthday">
+        <input class="w3-input w3-border" type="text",name="birthday">
         
         <label class="w3-label w3-large w3-text-white"><b>Phone Number</b></label>
-        <input class="w3-input w3-border" type="tel",name="phone">
+        <input class="w3-input w3-border" type="text",name="phone">
         
         <label class="w3-label w3-large w3-text-white"><b>Address Line 1</b></label>
         <input class="w3-input w3-border" id="address-line1" name="address-line1" type="text" placeholder="address line 1">
@@ -304,7 +403,7 @@
   <p>
   <button type="submit" class="w3-btn w3-light-grey">Register</button></p>
 
-</form>
+</form> -->
 
 </div>
 

@@ -70,19 +70,21 @@ def show_store_profile(laundry_id):
     cursor = g.conn.execute("select l.name, a.street, r.stars, r.reviews from laundromat l, address a, review r where l.lid=a.lid and l.lid = r.lid AND l.lid=%s",laundry_id)
     info = []
     for result in cursor:
-        info.append(result['name'])  # can also be accessed using result[0]
+        info.append(list(result))  # can also be accessed using result[0]
     print (info)
+    return render_template('laundromat.html', my_list=info, title="Store Profile")
     cursor.close()
 
 
 @app.route('/user/profile/<string:user_id>')
 def show_user_profile(user_id):
     print("In user profile")
-    cursor = g.conn.execute("select fname, lname, email from customer where cid=%s", user_id)
+    cursor = g.conn.execute("select c.fname, c.lname, c.email, c.phone, a.street, a.apt, a.city, a.state, a.zipcode from customer c, address a where c.cid = a.cid and c.cid=%s", user_id)
     user = []
     for result in cursor:
-        user.append(result['fname'])  # can also be accessed using result[0]
+        user.append(list(result))  # can also be accessed using result[0]
     print (user)
+    return render_template('userprofile.html', my_list=user, title="User Profile")
     cursor.close()
 
 
@@ -111,28 +113,34 @@ def searchresult():
 def about():
 #    return render_template('laundromat.html',priceList=[10,20,30,40,50,60])
 #     return render_template('checkout.html')
-      return render_template('userprofile.html')
+      return render_template('about.html')
 
 @app.route("/signup", methods=['POST','GET'])
 def signup():
     print("In signup")
     print (request.method)
     if request.method == 'POST':
-        print("hola")
         fname = request.form['firstname']
-        print ('hoop')
         lname = request.form['lastname']
-        print ('hola again')
         email = request.form['email']
+        print (email)
         password = request.form['password']
+        print (password)
         phone = request.form['phone']
-        street = request.form['address-line1']
+        print (phone)
+        street = request.form['address-1']
+        print (street)
+        apt = request.form['apt']
+        print (apt)
         city = request.form['city']
-        state = request.form['region']
-        zipcode = request.form['postal-code']
-        print (fname)
+        print (city)
+        state = request.form['state']
+        print (state)
+        zipcode = request.form['zipcode']
+        print (zipcode)
         #cmd = 'INSERT INTO laundryapp(customer) VALUES (:fname), (:lname), (:email), (:phone), (:password)';
         #stmt = g.conn.execute(text(cmd), fname = fname, lname = lname, email=email, phone=phone, pasword=pasword);
+        print ("here before redirect")
         return redirect('/')
     return render_template('signup.html')
 
