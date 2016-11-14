@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+            <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+                <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+                        <style>
+                            body {font-family: "Lato", sans-serif}
+                            .mySlides {display: none}
+                            </style>
+                        
+                        <script>
+                            function addDate(){
+                                var someDate = new Date(), dateArray = new Array(),dd,mm,y;
+                                
+                                for(i = 0; i<5; i++) {
+                                    someDate.setDate(someDate.getDate() + i+1);
+                                    dd = someDate.getDate();
+                                    mm = someDate.getMonth() + 1;
+                                    y = someDate.getFullYear();
+                                    someFormattedDate = mm + '/'+ dd + '/'+ y;
+                                    dateArray[i] = someFormattedDate;
+                                }
+                                
+                                return dateArray
+                                
+
+                            }
+                        
+                        function addSelect(divname) {
+                            var newDiv=document.createElement('div');
+                            var html = '<select> class="w3-select w3-rest w3-border"', dates = addDate(), i;
+                            for(i = 0; i < dates.length; i++) {
+                                html += "<option value='"+dates[i]+"'>"+dates[i]+"</option>";
+                            }
+                            html += '</select>';
+                            newDiv.innerHTML= html;
+                            document.getElementById(divname).appendChild(newDiv);
+                        }
+                        
+ 
+                        </script>
+    </head>
+    <body>
+        <div class="w3-container w3-black">
+            <h1>Check out</h1>
+      </div>
+        
+        
+        <!-- Order Info-->
+            <div class="w3-container w3-half w3-content w3-center w3-padding-64" style="max-width:600px; max-height:400px" id="order">
+                
+                <div class="w3-container w3-light-grey">
+                    <h3>Order info</h3>
+                </div>
+                
+                <form  class="w3-container w3-blue" action="{{ url_for('about') }}" method="post" name="personal">
+                    
+                    
+                    <label class="w3-label w3-large w3-text-white"><b>Total Amount</b></label>
+                    <input class="w3-input w3-border" type="text" name="amount">
+                    
+                    <label class="w3-label w3-large w3-text-white"><b>Pick up Address Line1</b></label>
+                    <input class="w3-input w3-border" id="address-line1" name="address-line1" type="text" placeholder="address line 1">
+                     <label class="w3-label w3-large w3-text-white"><b>Pick up Address Line2</b></label>
+                     <input class="w3-input w3-border" id="address-line2" name="address-line2" type="text" placeholder="address line 2">
+                                                    
+                     <label class="w3-label w3-large w3-text-white"><b>City</b></label>
+                     <input class="w3-input w3-border" id="city" name="city" type="text" placeholder="city">
+                     <label class="w3-label w3-large w3-text-white"><b>State</b></label>
+                     <input class="w3-input w3-border" id="region" name="region" type="text" placeholder="state/province/ region">
+                                                            
+                    <label class="w3-label w3-large w3-text-white"><b>Zip code</b></label>
+                    <input class="w3-input w3-border" id="postal-code" name="postal-code" type="text" placeholder="zip or postal code">
+                        
+                    <label class="w3-label w3-large w3-text-white"><b>Country</b></label>
+                    <input class="w3-input w3-border" id="Country" name="Country" type="text" placeholder="United States">
+                    
+                    <label class="w3-label w3-large w3-text-white"><b>Time to pick up</b></label>
+                    
+                    <div class="w3-row-padding">
+                
+
+                    <div id= "select-container" class="w3-half w3-container>
+                        <button id="pick-up-date" onclick= "addSelect('select-container');this.onclick=null;" class="w3-btn w3-col w3-light-grey" >Date</button>
+                    </div>
+                    
+                    <div class="w3-half w3-container>
+                    <label class="w3-label  w3-col w3-large w3-text-white"><b>Time</b></label>
+                    <select class="w3-select w3-rest w3-border" name="time-pick-up",id="time-pick-up">
+                    <option value="" selected="selected">(please select a time period)</option>
+                    <option value="T1">9:00AM-10:00AM</option>
+                    <option value="T2">10:00AM-11:00AM</option>
+                    <option value="T3">11:00AM-12:00PM</option>
+                    <option value="T4">12:00PM-01:00PM</option>
+                    <option value="T5">01:00PM-02:00PM</option>
+                    <option value="T6">02:00PM-03:00PM</option>
+                    <option value="T7">03:00PM-04:00PM</option>
+                    <option value="T8">04:00PM-05:00PM</option>
+                    <option value="T9">05:00PM-06:00PM</option>
+                    <option value="T10">06:00PM-07:00PM</option>
+                    <option value="T11">07:00PM-08:00PM</option>
+                    <option value="T12">08:00PM-09:00PM</option>
+                    </select>
+                    </div>
+                    </div>
+                                                                <p>
+                                                                <button type="submit" class="w3-btn w3-light-grey">Register</button></p>
+                                                                
+                </form>
+                
+            </div>
+
+
+
+
+
+
+        <style>
+            .demo-container {
+                width: 100%;
+                max-width: 350px;
+                margin: 50px auto;
+            }
+        form {
+            margin: 30px;
+        }
+        input {
+            width: 200px;
+            margin: 10px auto;
+            display: block;
+        }
+        </style>
+       <div class="w3-container w3-half w3-content w3-center w3-padding-64" style="max-width:600px; max-height:400px" id="credit card">
+        <div class="w3-container w3-light-grey">
+               <h3>Credit card</h3>
+        </div>
+        
+        <div class="demo-container">
+            <div class="card-wrapper"></div>
+            
+            <div class="form-container active">
+                <form action="">
+                    <input placeholder="Card number" type="text" name="number">
+                        <input placeholder="Full name" type="text" name="name">
+                            <input placeholder="MM/YY" type="text" name="expiry">
+                                <input placeholder="CVC" type="text" name="cvc">
+                                    </form>
+            </div>
+        </div>
+    </div>
+        <script src="static/js/card.js"></script>
+        <script>
+            new Card({
+                     form: document.querySelector('form'),
+                     container: '.card-wrapper'
+                     });
+            </script>
+    </body>
+</html>

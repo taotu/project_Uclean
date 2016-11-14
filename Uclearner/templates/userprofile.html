@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+            <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+                    <style>
+                        body {font-family: "Lato", sans-serif}
+                        .mySlides {display: none}
+                        </style>
+                    
+
+<div class="w3-container w3-black">
+    <h1>User profile</h1>
+</div>
+
+
+
+<div class="w3-content w3-margin" style="max-width:1400px;">
+    
+    <!-- The Grid -->
+    <div class="w3-row-padding">
+        
+        <!-- Left Column -->
+        <div class="w3-third">
+            
+            <div class="w3-white w3-text-grey w3-card-4">
+                <div class="w3-display-container">
+                    <img src="/static/images/user.jpg" style="width:100%" alt="Avatar">
+                        </div>
+                <div class="w3-container">
+                    
+                    <form action="get">
+                    <p><i class="fa fa-user fa-fw w3-margin-right w3-large w3-text-teal"></i>John Jay</p>
+                    <p><i class="fa fa-calendar fa-fw w3-margin-right w3-large w3-text-teal"></i>08/21/1975</p>
+                    <p><i class="fa fa-home fa-fw w3-margin-right w3-large w3-text-teal"></i>502 W 113th St New York NY 10025 United States </p>
+             
+                    <p><i class="fa fa-envelope fa-fw w3-margin-right w3-large w3-text-teal"></i>tutao1818@gmail.com</p>
+                    <p><i class="fa fa-phone fa-fw w3-margin-right w3-large w3-text-teal"></i>123-456-7890</p>
+                    <hr>
+                    </form>
+            
+            <!-- End Left Column -->
+            </div>
+                </div>
+        </div>
+        
+        <!-- Right Column -->
+        <form method="get">
+        <div class="w3-twothird">
+            
+            <div class="w3-container w3-card-2 w3-white w3-margin-bottom">
+                <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-calendar fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Order history</h2>
+                
+                {% for n in range(5) %}
+                <div class="w3-container">
+                    <h5 class="w3-opacity"><b>Laundrymat1</b></h5>
+                    <h6 class="w3-text-teal"><i class="fa fa-money fa-fw w3-margin-right"></i>Order total: $100</h6>
+                    <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>Transation time: 11/05/2015</h6>
+                      <h6 class="w3-text-teal"><i class="fa fa-bank fa-fw w3-margin-right"></i>Credit card: 1234-1234-2342-1234</h6>
+                    <hr>
+                </div>
+                {% endfor %}
+                            <!-- End Right Column -->
+        </div>
+        
+        <!-- End Grid -->
+    </div>
+        </form>
+    
+    </div>
+
+
+
+
+
+
+
+
+
+</div>
+
+</html>

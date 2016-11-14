@@ -109,7 +109,9 @@ def searchresult():
 
 @app.route("/about")
 def about():
-    return render_template('laundromat.html',priceList=[10,20,30,40,50,60])
+#    return render_template('laundromat.html',priceList=[10,20,30,40,50,60])
+#     return render_template('checkout.html')
+      return render_template('userprofile.html')
 
 @app.route("/signup", methods=['POST','GET'])
 def signup():
