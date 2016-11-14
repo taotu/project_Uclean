@@ -17,23 +17,6 @@
                 document.getElementById(total).value=qty.value*value;
             }
         
-         function Total(total,total1,total2,total3,total4,total5,total6){
-           total1=document.getElementById(total1);
-            total2=document.getElementById(total2);
-           total3=document.getElementById(total3);
-            total4=document.getElementById(total4);
-            total5=document.getElementById(total5);
-            total6=document.getElementById(total6);
-            total1.value=Math.max(total1.value,0);
-            total2.value=Math.max(total2.value,0);
-            total3.value=Math.max(total3.value,0);
-            total4.value=Math.max(total4.value,0);
-            total5.value=Math.max(total5.value,0);
-            total6.value=Math.max(total6.value,0);
-
-            document.getElementById(total).value=total1.value+total2.value+total3.value+total4.value+total5.value+total6.value;
-       }
-        
 
         </script>
         
@@ -97,7 +80,7 @@
         </div>
         
 
-        
+        </div>
         
         <div class="w3-half w3-container style="margin-top:306px">
        <div class="w3-topbar w3-border-orange w3-padding-top" style="margin-top:30px" >
@@ -105,11 +88,39 @@
       <h2>Laundromat1</h2>
       <p>116th Broadway</p>
       <p>New York NY 10025</p>
-   
+      <div class="rating">
+          {% for n in range(5) %}
+          <span>★</span>
+          {% endfor %}
+          
+      </div>
 
 
         </div>
-        
-        
+      
+      <br><br> <br><br> <br><br>
+      <!-- Display laundromat-->
+      <div class="w3-container w3-blue style="margin:46px" >
+          <h2>Customer reviews</h2>
+          
+          <ul class="w3-ul w3-card-1  w3-white style="max-width:200px">
+          {% for n in range(5) %}
+          <li class="w3-padding-16">
+              <img src="/static/images/restau03_mini.jpg" class="w3-left w3-circle w3-margin-right" style="width:60px">
+                  <span class="w3-large"><a href="L1">502 W 113th St</a></span><br>
+                  <div class="rating">
+                      {% for n in range(5) %}
+                      <span>★</span>
+                      {% endfor %}
+                      
+                  </div>
+                  </li>
+          {% endfor %}
+          </ul>
+      </div>
+      <div class="w3-container w3-blue style="max-width:200px">
+          <H5> End </H5>
+          </div>
+       
     </body>
 </html>
