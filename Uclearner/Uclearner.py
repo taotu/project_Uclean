@@ -308,10 +308,7 @@ def logout():
 # set the secret key.  keep this really secret:
 if __name__ == "__main__":
   import click
-<<<<<<< HEAD
-=======
 
->>>>>>> c698f19f3b04811ca9712e13f3fa20b9e7138376
   @click.command()
   @click.option('--debug', is_flag=True)
   @click.option('--threaded', is_flag=True)
@@ -329,19 +326,11 @@ if __name__ == "__main__":
         python server.py --help
 
     """
-<<<<<<< HEAD
     app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
-=======
 
->>>>>>> c698f19f3b04811ca9712e13f3fa20b9e7138376
     HOST, PORT = host, port
     print ("running on %s:%d" % (HOST, PORT))
     app.run(host=HOST, port=PORT, debug=debug, threaded=threaded)
 
 
   run()
-<<<<<<< HEAD
-
-=======
->>>>>>> c698f19f3b04811ca9712e13f3fa20b9e7138376
-
