@@ -30,7 +30,7 @@
                         
                         function addSelect(divname) {
                             var newDiv=document.createElement('div');
-                            var html = '<select> class="w3-select w3-rest w3-border"', dates = addDate(), i;
+                            var html = '<select name="date-pick-up" class="w3-select w3-rest w3-border">', dates = addDate(), i;
                             for(i = 0; i < dates.length; i++) {
                                 html += "<option value='"+dates[i]+"'>"+dates[i]+"</option>";
                             }
@@ -43,7 +43,25 @@
                         </script>
     </head>
     <body>
-        <div class="w3-container w3-black">
+        
+        <!-- Navigation Bar -->
+        <div class="w3-top">
+            <ul class="w3-navbar w3-black w3-card-2 w3-left-align">
+                <li class="w3-hide-medium w3-hide-large w3-opennav w3-right">
+                    <a class="w3-padding-large" href="javascript:void(0)" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
+                </li>
+                <li><a href="#" class="w3-hover-none w3-hover-text-grey w3-padding-large">HOME</a></li>
+                <li class="w3-hide-small"><a href="{{url_for("login")}}" class="w3-padding-large">Log in</a></li>
+                <li class="w3-hide-small"><a href="{{url_for("signup")}}" class="w3-padding-large">Sign up</a></li>
+                <li class="w3-hide-small"><a href="{{url_for("about")}}" class="w3-padding-large">About</a></li>
+                </ul>
+        </div>
+        
+        
+        
+        
+        <br><br>
+        <div class="w3-container w3-blue">
             <h1>Check out</h1>
       </div>
         
@@ -73,9 +91,7 @@
                                                             
                     <label class="w3-label w3-large w3-text-white"><b>Zip code</b></label>
                     <input class="w3-input w3-border" id="postal-code" name="postal-code" type="text" placeholder="zip or postal code">
-                        
-                    <label class="w3-label w3-large w3-text-white"><b>Country</b></label>
-                    <input class="w3-input w3-border" id="Country" name="Country" type="text" placeholder="United States">
+    
                     
                     <label class="w3-label w3-large w3-text-white"><b>Time to pick up</b></label>
                     
@@ -90,25 +106,25 @@
                     <label class="w3-label  w3-col w3-large w3-text-white"><b>Time</b></label>
                     <select class="w3-select w3-rest w3-border" name="time-pick-up",id="time-pick-up">
                     <option value="" selected="selected">(please select a time period)</option>
-                    <option value="T1">9:00AM-10:00AM</option>
-                    <option value="T2">10:00AM-11:00AM</option>
-                    <option value="T3">11:00AM-12:00PM</option>
-                    <option value="T4">12:00PM-01:00PM</option>
-                    <option value="T5">01:00PM-02:00PM</option>
-                    <option value="T6">02:00PM-03:00PM</option>
-                    <option value="T7">03:00PM-04:00PM</option>
-                    <option value="T8">04:00PM-05:00PM</option>
-                    <option value="T9">05:00PM-06:00PM</option>
-                    <option value="T10">06:00PM-07:00PM</option>
-                    <option value="T11">07:00PM-08:00PM</option>
-                    <option value="T12">08:00PM-09:00PM</option>
+                    <option value="9:00AM-10:00AM">9:00AM-10:00AM</option>
+                    <option value="10:00AM-11:00AM">10:00AM-11:00AM</option>
+                    <option value="11:00AM-12:00PM">11:00AM-12:00PM</option>
+                    <option value="12:00PM-01:00PM">12:00PM-01:00PM</option>
+                    <option value="01:00PM-02:00PM">01:00PM-02:00PM</option>
+                    <option value="02:00PM-03:00PM">02:00PM-03:00PM</option>
+                    <option value="03:00PM-04:00PM">03:00PM-04:00PM</option>
+                    <option value="04:00PM-05:00PM">04:00PM-05:00PM</option>
+                    <option value="05:00PM-06:00PM">05:00PM-06:00PM</option>
+                    <option value="06:00PM-07:00PM">06:00PM-07:00PM</option>
+                    <option value="07:00PM-08:00PM">07:00PM-08:00PM</option>
+                    <option value="08:00PM-09:00PM">08:00PM-09:00PM</option>
                     </select>
                     </div>
                     </div>
-                                                                <p>
-                                                                <button type="submit" class="w3-btn w3-light-grey">Register</button></p>
+                     <p>
+                     <button type="submit" class="w3-btn w3-light-grey w3-hover">Check out</button></p>
                                                                 
-                </form>
+               
                 
             </div>
 
@@ -141,14 +157,18 @@
             <div class="card-wrapper"></div>
             
             <div class="form-container active">
-                <form action="">
+               
                     <input placeholder="Card number" type="text" name="number">
                         <input placeholder="Full name" type="text" name="name">
                             <input placeholder="MM/YY" type="text" name="expiry">
                                 <input placeholder="CVC" type="text" name="cvc">
-                                    </form>
+                                 
             </div>
         </div>
+        
+         </form>
+        
+        
     </div>
         <script src="static/js/card.js"></script>
         <script>
