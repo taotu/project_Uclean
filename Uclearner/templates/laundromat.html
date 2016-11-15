@@ -34,10 +34,20 @@
          </script>
              
     </head>
-    
+                          <div class="w3-top">
+                            <ul class="w3-navbar w3-black w3-card-2 w3-left-align">
+                                <li class="w3-hide-medium w3-hide-large w3-opennav w3-right">
+                                    <a class="w3-padding-large" href="javascript:void(0)" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
+                                </li>
+                                <li><a href="/" class="w3-hover-none w3-hover-text-grey w3-padding-large">HOME</a></li>
+                                <li class="w3-hide-small"><a href="{{url_for("about")}}" class="w3-padding-large">About</a></li>
+                            </ul>
+                        </div>
+                                            
+    <br><br>  
     
    <div class="w3-container w3-black">
-        <h1>Laudromat</h1>
+        <h1>Laundromat</h1>
    </div>
                     
     <body>
@@ -48,35 +58,34 @@
         <div id="purhcaseForm">
         
   
-
+           <form id="purchase", method="POST", action="/checkout">
 
             {% for n in priceList %}
 
 
-            <form id="purchase">
-                <label class="w3-label w3-large w3-text-black"><b>"{{n}}"</b></label>
-                <br> Item Price: ${{n}}
+         
+                <label class="w3-label w3-large w3-text-black"><b>{{n[0]}}</b></label>
+                <br> Item Price: ${{n[1]}}
                 <br> Please Select Quantity
-                <input type='button' name='subtract' onclick='TotalItem("qty{{loop.index}}",-1,"total{{loop.index}}",{{n}}); findTotal();' value='-'/>
-                <input type='button' name='add' onclick='TotalItem("qty{{loop.index}}",1,"total{{loop.index}}",{{n}}); findTotal();' value='+'/>
+                <input type='button' name='subtract' onclick='TotalItem("qty{{loop.index}}",-1,"total{{loop.index}}",{{n[1]}}); findTotal();' value='-'/>
+                <input type='button' name='add' onclick='TotalItem("qty{{loop.index}}",1,"total{{loop.index}}",{{n[1]}}); findTotal();' value='+'/>
                 <input type='text' name='qty' id='qty{{loop.index}}' readonly=true value="0"/>
-                <input type='text'   name='total' id='total{{loop.index}}' value="0" />
+                <input type='text'   name='total' id='total{{loop.index}}' readonly=true value="0" />
                 
-            </form>
-
+            <br>
             {% endfor %}
             <br>
             
-            <form id="purchase" class="w3-row">
+          
             
                 <label class="w3-label  w3-large w3-text-white"><b>Total</b></label>
-                 <input class="w3-input w3-border " type="text" name="totalsum" id="totalsum">
+                 <input class="w3-input w3-border " type="text" name="totalsum" id="totalsum" readonly=true>
            
                      <p class="w3-center ">
-                      <button class="w3-btn w3-margin w3-light-grey w3-large w3-ripple"> Place order</button>
+                      <button type=submit class="w3-btn w3-margin w3-light-grey w3-large w3-ripple"> Place order</button>
                        </p>
-                      </form>
-                    </div>
+         </form>             
+        </div>
         </div>
         
 
@@ -85,11 +94,10 @@
         <div class="w3-half w3-container style="margin-top:306px">
        <div class="w3-topbar w3-border-orange w3-padding-top" style="margin-top:30px" >
            <img src="/static/images/restau01_mini.jpg" style="width:50%">
-      <h2>Laundromat1</h2>
-      <p>116th Broadway</p>
-      <p>New York NY 10025</p>
+      <h2>{{my_list[0][0]}}</h2>
+      <p>{{my_list[0][1]}} {{my_list[0][2]}} {{my_list[0][3]}} {{my_list[0][4]}}</p>
       <div class="rating">
-          {% for n in range(5) %}
+          {% for n in range(my_list[0][5]) %}
           <span>★</span>
           {% endfor %}
           
@@ -98,28 +106,28 @@
 
         </div>
       
-      <br><br> <br><br> <br><br>
+      <br><br>
       <!-- Display laundromat-->
       <div class="w3-container w3-blue style="margin:46px" >
           <h2>Customer reviews</h2>
           
           <ul class="w3-ul w3-card-1  w3-white style="max-width:200px">
-          {% for n in range(5) %}
+          {% for n in review %}
           <li class="w3-padding-16">
               <img src="/static/images/restau03_mini.jpg" class="w3-left w3-circle w3-margin-right" style="width:60px">
-                  <span class="w3-large"><a href="L1">502 W 113th St</a></span><br>
+                  <span class="w3-large">{{n[0]}}</span><br>
                   <div class="rating">
-                      {% for n in range(5) %}
+                      {% for i in range(n[2]) %}
                       <span>★</span>
                       {% endfor %}
-                      
+                      <br>
+                      <span>{{n[1]}}</span>
                   </div>
                   </li>
           {% endfor %}
           </ul>
       </div>
       <div class="w3-container w3-blue style="max-width:200px">
-          <H5> End </H5>
           </div>
        
     </body>

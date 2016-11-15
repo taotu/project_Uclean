@@ -1,5 +1,5 @@
 #!/usr/bin/env python3.5
-
+from time import sleep
 import os
 from sqlalchemy import *
 from sqlalchemy.pool import NullPool
@@ -57,36 +57,58 @@ def template_test():
   cursor = g.conn.execute("select l.lid, l.name, a.street, r.stars from laundromat l, address a, review r where l.lid=a.lid and l.lid = r.lid")
   names = []
   sublist = []
+  islogged = false
   for result in cursor:
     names.append(list(result))
     # can also be accessed using result[0]
   cursor.close()
   print (names)
-  return render_template('layout.html', my_list=names, title="Welcome")
+  if 'logged_in' in session and session['logged_in']:
+    islogged = True
+  return render_template('layout.html', my_list=names, title="Welcome", logged=islogged)
 
 @app.route('/store/profile/<string:laundry_id>')
 def show_store_profile(laundry_id):
     print("In store profile")
-    cursor = g.conn.execute("select l.name, a.street, r.stars, r.reviews from laundromat l, address a, review r where l.lid=a.lid and l.lid = r.lid AND l.lid=%s",laundry_id)
+    cursor = g.conn.execute("select l.name, a.street, a.city, a.state, a.zipcode, r.stars from laundromat l, address a, review r where l.lid=a.lid and l.lid = r.lid AND l.lid=%s",laundry_id)
     info = []
+    reviews = []
+    items =[]
     for result in cursor:
         info.append(list(result))  # can also be accessed using result[0]
     print (info)
-    return render_template('laundromat.html', my_list=info, title="Store Profile")
     cursor.close()
-
-
-@app.route('/user/profile/<string:user_id>')
-def show_user_profile(user_id):
-    print("In user profile")
-    cursor = g.conn.execute("select c.fname, c.lname, c.email, c.phone, a.street, a.apt, a.city, a.state, a.zipcode from customer c, address a where c.cid = a.cid and c.cid=%s", user_id)
-    user = []
+    cursor = g.conn.execute("select c.email, r.reviews, r.stars from laundromat l, customer c, review r where c.cid=r.cid and l.lid = r.lid AND l.lid=%s",laundry_id)
     for result in cursor:
-        user.append(list(result))  # can also be accessed using result[0]
-    print (user)
-    return render_template('userprofile.html', my_list=user, title="User Profile")
+      reviews.append(list(result))  # can also be accessed using result[0]
+    print (reviews)
     cursor.close()
+    cursor = g.conn.execute("select item_type, price from item")
+    for result in cursor:
+      items.append(list(result))  # can also be accessed using result[0]
+    print (items)
+    return render_template('laundromat.html', my_list=info, review=reviews, priceList=items, title="Store Profile")
 
+@app.route('/user/profile')
+def show_user_profile():
+    print("In user profile")
+    print(session['user_id'])
+    if 'logged_in' in session and session['logged_in']:
+      cursor = g.conn.execute("select c.fname, c.lname, c.email, c.phone, a.street, a.apt, a.city, a.state, a.zipcode from customer c, address a where c.cid = a.cid and c.cid=%s", session['user_id'])
+      user = []
+      for result in cursor:
+          user.append(list(result))  # can also be accessed using result[0]
+      print (user)
+      cursor.close()
+      cursor = g.conn.execute("select o.order_id, o.total, o.status, o.date_created from order_table o where o.cid=%s", session['user_id'])
+      order_history = []
+      for result in cursor:
+          order_history.append(list(result))  # can also be accessed using result[0]
+      print (order_history)
+      cursor.close()
+
+      return render_template('userprofile.html', my_list=user, orders = order_history, title="User Profile")
+    return render_template('login.html')
 
 @app.route("/search", methods=['POST','GET'])
 def searchresult():
@@ -107,7 +129,7 @@ def searchresult():
   
 
   print (store_profile)
-  return render_template('layout.html', my_list=store_profile, title="Welcome")
+  return render_template('layout.html', my_list=store_profile, title="Welcome", logged = islogged)
 
 @app.route("/about")
 def about():
@@ -115,33 +137,54 @@ def about():
 #     return render_template('checkout.html')
       return render_template('about.html')
 
+@app.route("/checkout", methods=['POST'])
+def checkout():
+  print ('In checkout')
+  order_total = request.form['totalsum']
+  print (order_total)
+  order_items = request.form.getlist("total")
+  print (order_items)
+  qty = request.form.getlist("qty")
+  print (qty)
+  return render_template('checkout.html')
+
 @app.route("/signup", methods=['POST','GET'])
 def signup():
     print("In signup")
     print (request.method)
     if request.method == 'POST':
-        fname = request.form['firstname']
-        lname = request.form['lastname']
-        email = request.form['email']
-        print (email)
-        password = request.form['password']
-        print (password)
-        phone = request.form['phone']
-        print (phone)
-        street = request.form['address-1']
-        print (street)
-        apt = request.form['apt']
-        print (apt)
-        city = request.form['city']
-        print (city)
-        state = request.form['state']
-        print (state)
-        zipcode = request.form['zipcode']
-        print (zipcode)
-        #cmd = 'INSERT INTO laundryapp(customer) VALUES (:fname), (:lname), (:email), (:phone), (:password)';
-        #stmt = g.conn.execute(text(cmd), fname = fname, lname = lname, email=email, phone=phone, pasword=pasword);
-        print ("here before redirect")
-        return redirect('/')
+        a = -1
+        b = -1
+        fname = str(request.form['firstname'])
+        lname = str(request.form['lastname'])
+        email = str(request.form['email'])
+        password = str(request.form['password'])
+        phone = str(request.form['phone'])
+        street = str(request.form['address-1'])
+        apt = str(request.form['apt'])
+        city =str(request.form['city'])
+        state = str(request.form['state'])
+        zipcode = str(request.form['zipcode'])
+        cursor = g.conn.execute("select MAX(cid) FROM customer")
+        for i in cursor:
+          a = i[0]
+        a = a + 1
+
+        cmd1 = 'INSERT INTO customer VALUES ((:cid), (:fname), (:lname), (:email), (:password), (:phone))'
+        g.conn.execute(text(cmd1), cid=a, fname = fname, lname = lname, email=email, password=password, phone=phone)
+        cursor.close()
+        cursor = g.conn.execute("select MAX(addr_id) FROM address")
+        for i in cursor:
+          b = i[0]
+        b = b + 1
+        cmd2 = 'INSERT INTO address VALUES ((:addr_id), (:street), (:city), (:state), (:apt), (:zipcode), (:cid))'
+        g.conn.execute(text(cmd2), addr_id=b, street = street, city = city, state=state, apt=apt, zipcode=zipcode, cid=a)
+        #print(stmt)
+        session['logged_in'] = True
+        session['user_id'] = a
+        # print(session['user_id'])
+        #return show_user_profile()
+        return login()
     return render_template('signup.html')
 
 @app.route("/order")
@@ -156,26 +199,53 @@ def order():
 def login():
     error = None
     print ('In Logged in')
+    if 'logged_in' in session and session['logged_in']:
+      return show_user_profile()
     if request.method == 'POST':
-        cursor = g.conn.execute("SELECT email, password FROM customer WHERE email=%s", request.form['email'])
+        cursor = g.conn.execute("SELECT cid, email, password FROM customer WHERE email=%s", request.form['email'])
         info = []
         for result in cursor:
+            info.append(result['cid'])
             info.append(result['email'])  # can also be accessed using result[0]
             info.append(result['password'])
         print (info)
+        if len(info) == 0:
+          error = 'Email not registered'
+          return render_template('login.html', error=error)
         if request.method == 'POST':
-            if request.form['email'] != info[0]:
+            if request.form['email'] != info[1]:
                 error = 'Invalid username'
         
-            elif request.form['password'] != info[1]:
+            elif request.form['password'] != info[2]:
                 error = 'Invalid password'
 
             else:
-                #session['logged_in'] = True
-                #flash('You were logged in')
-                print('yey')
-                return redirect(url_for('show_user_profile'))
+                session['logged_in'] = True
+                session['user_id'] = info[0]
+                islogged = True
+                flash('You were logged in')
+                return show_user_profile()
+                #return redirect(url_for('show_store_profile'))
     return render_template('login.html', error=error)
 
+@app.route('/test')
+def test():
+  cursor = g.conn.execute("select COUNT(*) FROM customer")
+  print('before')
+  for i in cursor:
+    a = i
+  print(a[0])
+
+
+@app.route('/logout')
+def logout():
+    # remove the username from the session if it's there
+    session.pop('logged_in', None)
+    session.pop('user_id', None)
+    return redirect(url_for('template_test'))
+
+# set the secret key.  keep this really secret:
 if __name__ == '__main__':
-    app.run(debug=True)
+  app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
+  app.run(debug=True)
+

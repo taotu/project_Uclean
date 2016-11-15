@@ -8,10 +8,20 @@
                         body {font-family: "Lato", sans-serif}
                         .mySlides {display: none}
                         </style>
-                    
-
-<div class="w3-container w3-black">
-    <h1>User profile</h1>
+                        <div class="w3-top">
+                            <ul class="w3-navbar w3-black w3-card-2 w3-left-align">
+                                <li class="w3-hide-medium w3-hide-large w3-opennav w3-right">
+                                    <a class="w3-padding-large" href="javascript:void(0)" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
+                                </li>
+                                <li><a href="/" class="w3-hover-none w3-hover-text-grey w3-padding-large">HOME</a></li>
+                                <li class="w3-hide-small"><a href="/logout" class="w3-padding-large">Log out</a></li>
+                                <li class="w3-hide-small"><a href="{{url_for("about")}}" class="w3-padding-large">About</a></li>
+                            </ul>
+                        </div>
+                                            
+<br><br>
+<div class="w3-container w3-blue">
+    <h1>User Profile</h1>
 </div>
 
 
@@ -51,12 +61,12 @@
             <div class="w3-container w3-card-2 w3-white w3-margin-bottom">
                 <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-calendar fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Order history</h2>
                 
-                {% for n in range(5) %}
+                {% for n in orders %}
                 <div class="w3-container">
-                    <h5 class="w3-opacity"><b>Laundrymat1</b></h5>
-                    <h6 class="w3-text-teal"><i class="fa fa-money fa-fw w3-margin-right"></i>Order total: $100</h6>
-                    <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>Transation time: 11/05/2015</h6>
-                      <h6 class="w3-text-teal"><i class="fa fa-bank fa-fw w3-margin-right"></i>Credit card: 1234-1234-2342-1234</h6>
+                    <h5 class="w3-opacity"><b>Order ID: {{n[0]}}</b></h5>
+                    <h6 class="w3-text-teal"><i class="fa fa-money fa-fw w3-margin-right"></i>Order total: ${{n[1]}}</h6>
+                    <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>Transation time: {{n[3]}}</h6>
+                      <h6 class="w3-text-teal"><i class="fa fa-bank fa-fw w3-margin-right"></i>Order Status: {{n[2]}}</h6>
                     <hr>
                 </div>
                 {% endfor %}
