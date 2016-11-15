@@ -65,7 +65,6 @@
                 <li><a href="/" class="w3-hover-none w3-hover-text-grey w3-padding-large">HOME</a></li>
                 <li class="w3-hide-small"><a href="{{url_for("login")}}" class="w3-padding-large">Log in</a></li>
                 <li class="w3-hide-small"><a href="{{url_for("signup")}}" class="w3-padding-large">Sign up</a></li>
-                <li class="w3-hide-small"><a href="{{url_for("about")}}" class="w3-padding-large">About</a></li>
                 </ul>
         </div>
         
@@ -85,24 +84,24 @@
                     <h3>Order info</h3>
                 </div>
                 
-                <form  class="w3-container w3-blue" action="{{ url_for('login') }}" method="post" name="personal">
+                <form  class="w3-container w3-blue" action="/checkout" method="post" name="personal">
                     
                     
                     <label class="w3-label w3-large w3-text-white"><b>Total Amount</b></label>
                     <input class="w3-input w3-border" type="text" name="amount" value={{order_total}}>
                     
                     <label class="w3-label w3-large w3-text-white"><b>Pick up Address Line1</b></label>
-                    <input class="w3-input w3-border" id="address-line1" name="address-line1" type="text" placeholder="address line 1" value={{my_list[0]}}>
+                    <input class="w3-input w3-border" id="address-line1" name="address-line1" type="text" placeholder="address line 1" value="{{my_list[0][0]}}">
                      <label class="w3-label w3-large w3-text-white"><b>Pick up Address Line2</b></label>
-                     <input class="w3-input w3-border" id="address-line2" name="address-line2" type="text" placeholder="address line 2" value={{my_list[1]}}>
+                     <input class="w3-input w3-border" id="address-line2" name="address-line2" type="text" placeholder="address line 2" value="{{my_list[0][1]}}">
                                                     
                      <label class="w3-label w3-large w3-text-white"><b>City</b></label>
-                     <input class="w3-input w3-border" id="city" name="city" type="text" placeholder="city" value={{my_list[2]}}>
+                     <input class="w3-input w3-border" id="city" name="city" type="text" placeholder="city" value="{{my_list[0][2]}}">
                      <label class="w3-label w3-large w3-text-white"><b>State</b></label>
-                     <input class="w3-input w3-border" id="region" name="region" type="text" placeholder="state/province/region" value={{my_list[3]}}>
+                     <input class="w3-input w3-border" id="region" name="region" type="text" placeholder="state/province/region" value="{{my_list[0][3]}}">
                                                             
                     <label class="w3-label w3-large w3-text-white"><b>Zip code</b></label>
-                    <input class="w3-input w3-border" id="postal-code" name="postal-code" type="text" placeholder="zip or postal code" value={{my_list[4]}}>
+                    <input class="w3-input w3-border" id="postal-code" name="postal-code" type="text" placeholder="zip or postal code" value="{{my_list[0][4]}}">
     
                     
                     <label class="w3-label w3-large w3-text-white"><b>Time to pick up</b></label>
@@ -158,10 +157,10 @@
             <div class="form-container active">
                 
                 
-                    <input placeholder="Card number" type="text" name="number" value={{my_list[5]}}>
-                        <input placeholder="First name" type="text" name="fname" value={{my_list[6]}}>
-                            <input placeholder="Last name" type="text" name="lname" value={{my_list[7]}}>
-                                <input placeholder="CVC" type="text" name="cvc" value={{my_list[8]}}>
+                    <input placeholder="Card number" type="text" name="number" value={{my_list[0][7]}}>
+                        <input placeholder="First name" type="text" name="fname" value={{my_list[0][5]}}>
+                            <input placeholder="Last name" type="text" name="lname" value={{my_list[0][6]}}>
+                                <input placeholder="CVC" type="text" name="cvc" value={{my_list[0][8]}}>
                                  
             </div>
         </div>

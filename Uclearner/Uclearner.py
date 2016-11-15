@@ -1,6 +1,7 @@
 #!/usr/bin/env python3.5
 from time import sleep
 import os
+import datetime
 from sqlalchemy import *
 from sqlalchemy.pool import NullPool
 from flask import Flask, render_template, request, session, g, redirect, url_for, abort, flash, Response
@@ -70,6 +71,7 @@ def template_test():
 @app.route('/store/profile/<string:laundry_id>')
 def show_store_profile(laundry_id):
     print("In store profile")
+    session['lid'] = laundry_id
     cursor = g.conn.execute("select l.name, a.street, a.city, a.state, a.zipcode, r.stars from laundromat l, address a, review r where l.lid=a.lid and l.lid = r.lid AND l.lid=%s",laundry_id)
     info = []
     reviews = []
@@ -98,13 +100,11 @@ def show_user_profile():
       user = []
       for result in cursor:
           user.append(list(result))  # can also be accessed using result[0]
-      print (user)
       cursor.close()
       cursor = g.conn.execute("select o.order_id, o.total, o.status, o.date_created from order_table o where o.cid=%s", session['user_id'])
       order_history = []
       for result in cursor:
           order_history.append(list(result))  # can also be accessed using result[0]
-      print (order_history)
       cursor.close()
 
       return render_template('userprofile.html', my_list=user, orders = order_history, title="User Profile")
@@ -113,22 +113,20 @@ def show_user_profile():
 @app.route("/search", methods=['POST','GET'])
 def searchresult():
   term = request.form['term']
-  print ("request is" +term)
+  print ("request is " +term)
 
   #cur.execute("UPDATE Cars SET Price=%s WHERE Id=%s", (uPrice, uId))
   cursor = g.conn.execute("select l.lid, l.name, a.street, r.stars from laundromat l, address a, review r where l.lid=a.lid and l.lid = r.lid AND a.zipcode=%s",term)
   store_profile = []
-  dict = {}
+  islogged = False
   for result in cursor:
-    store_profile.append(result['name']) 
-    store_profile.append(result['street'])
-    store_profile.append(result['stars'])
-    store_profile.append(result['lid']) 
+    store_profile.append(list(result))
      # can also be accessed using result[0]
   cursor.close()
-  
 
   print (store_profile)
+  if 'logged_in' in session and session['logged_in']:
+    islogged = True
   return render_template('layout.html', my_list=store_profile, title="Welcome", logged = islogged)
 
 @app.route("/about")
@@ -140,21 +138,46 @@ def about():
 @app.route("/checkout", methods=['POST'])
 def checkout():
   print ('In checkout')
+  print(request.method)
   if 'logged_in' in session and session['logged_in']:
     if request.method == 'POST':
-      cursor = g.conn.execute("select c.fname, c.lname, c.email, c.phone, a.street, a.apt, a.city, a.state, a.zipcode from customer c, address a where c.cid = a.cid and c.cid=%s", session['user_id'])
-      user = []
-      for result in cursor:
-         user.append(list(result))  # can also be accessed using result[0]
-      print (user)
+      a = -1
+      b = -1
+      c = -1
+      totalsum = int(request.form['amount'])
+      add1 = request.form['address-line1']
+      add2 = request.form['address-line2']
+      city = request.form['city'] 
+      region = request.form['region'] 
+      zipcode = request.form['postal-code'] 
+      pickup = request.form.get('date-pick-up') 
+      delivery = request.form.get('date-delivery')
+      cnum = request.form['number'] 
+      print(cnum)
+      fname = request.form['fname']
+      lname = request.form['lname']
+      cvc = request.form['cvc']
+      cursor = g.conn.execute("select MAX(order_id) FROM order_table")
+      for i in cursor:
+        a = i[0]
+        a = a + 1
+      cmd1 = 'INSERT INTO order_table VALUES ((:order_id), (:total), (:status), (:pickup_time), (:delivery_time), (:date_created), (:cid), (:lid))'
+      g.conn.execute(text(cmd1), order_id=a, total = totalsum, status = 'Pickup', pickup_time=pickup, delivery_time=delivery, date_created=datetime.date.today(), cid=session['user_id'], lid=session['lid'])
       cursor.close()
-      order_total = request.form['totalsum']
-      print (order_total)
-      order_items = request.form.getlist("total")
-      print (order_items)
-      qty = request.form.getlist("qty")
-      print (qty)
-      return render_template('checkout.html')
+      payment = []
+      cursor = g.conn.execute("select cnumber from payment_info WHERE cnumber = %s", cnum)
+      for result in cursor:
+            payment.append(result[0])
+      print (payment)
+      if len(payment) == 0:
+        cursor = g.conn.execute("select MAX(pid) FROM payment_info")
+        for i in cursor:
+          c = i[0]
+          c = c + 1
+        cmd2 = 'INSERT INTO payment_info VALUES ((:pid), (:ptype), (:cnumber), (:cvv), (:cid))'
+        g.conn.execute(text(cmd2), pid=c, ptype = "", cnumber = cnum, cvv=cvc, cid=session['user_id'])
+        cursor.close()
+      return show_user_profile()
   return redirect(url_for('login'))
 
 @app.route("/order", methods=['POST'])
@@ -162,25 +185,21 @@ def order():
   print ('In order')
   if 'logged_in' in session and session['logged_in']:
     if request.method == 'POST':
-      cursor = g.conn.execute("select a.street, a.apt, a.city, a.state, a.zipcode, c.fname, c.lname, p.cnumber, p.cvv, from customer c, payment_info p, address a where c.cid = a.cid and p.cid = c.cid and c.cid=%s", session['user_id'])
+      cursor = g.conn.execute("select a.street, a.apt, a.city, a.state, a.zipcode, c.fname, c.lname, p.cnumber, p.cvv from customer c, payment_info p, address a where c.cid = a.cid and p.cid = c.cid and c.cid=%s", session['user_id'])
       payment_info = []
       for result in cursor:
-         user.append(list(result))  # can also be accessed using result[0]
-      print (user)
+         payment_info.append(list(result))  # can also be accessed using result[0]
       cursor.close()
+      print (payment_info)
       order_total = request.form['totalsum']
-      print (order_total)
       order_items = request.form.getlist("total")
-      print (order_items)
       qty = request.form.getlist("qty")
-      print (qty)
       session['order_total'] = order_total
       session['order_items'] = order_total
       session['qty'] = qty
       session['payment_info'] = payment_info
-      print(session['payment_info'])
       #return redirect(url_for('checkout')
-      return render_template('checkout.html', my_list=payment_info, order_total=order_total, logged = islogged)
+      return render_template('checkout.html', my_list=payment_info, order_total=order_total)
   return redirect(url_for('login'))
 
 @app.route("/signup", methods=['POST','GET'])

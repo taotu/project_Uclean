@@ -21,7 +21,6 @@
                                 <li><a href="#" class="w3-hover-none w3-hover-text-grey w3-padding-large">HOME</a></li>
                                 <li class="w3-hide-small"><a href="{{url_for("login")}}" class="w3-padding-large">Log in</a></li>
                                 <li class="w3-hide-small"><a href="{{url_for("signup")}}" class="w3-padding-large">Sign up</a></li>
-                                <li class="w3-hide-small"><a href="{{url_for("about")}}" class="w3-padding-large">About</a></li>
                                 {% if logged == True %} 
                                 <li class="w3-hide-small"><a href="{{url_for("show_user_profile")}}" class="w3-padding-large">Profile</a></li>
                                 {% endif %}
@@ -51,7 +50,7 @@
                         <!--- Search box ---->
                         
                             <div class="w3-display-container w3-padding-32 w3-blue" style="height:50px; margin-top:46px;">
-                           
+                           <form action="/search" method = "post" >
                                 <div class="w3-display-middle">
                                     <div class="w3-col m10">
                                         <form method="POST" action="/search">
@@ -63,7 +62,9 @@
                                     </div>
                 
                                  </div>
+                             </form>
                             </div>
+
                             <br>
                             <!-- Display laundromat-->
                             <div class="w3-container w3-teal style="margin:46px" >
