@@ -9,6 +9,7 @@ from flask import Flask, render_template, request, session, g, redirect, url_for
 tmpl_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
 app = Flask(__name__, template_folder=tmpl_dir)
 
+# configuration
 DATABASEURI = 'postgresql:///postgres'
 DATABASE = '/tmp/flaskr.db'
 DEBUG = True
@@ -299,6 +300,7 @@ if __name__ == "__main__":
   @click.option('--threaded', is_flag=True)
   @click.argument('HOST', default='0.0.0.0')
   @click.argument('PORT', default=8111, type=int)
+  app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
   def run(debug, threaded, host, port):
     """
     This function handles command line parameters.
