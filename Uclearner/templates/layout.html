@@ -22,14 +22,10 @@
                                 <li class="w3-hide-small"><a href="{{url_for("login")}}" class="w3-padding-large">Log in</a></li>
                                 <li class="w3-hide-small"><a href="{{url_for("signup")}}" class="w3-padding-large">Sign up</a></li>
                                 <li class="w3-hide-small"><a href="{{url_for("about")}}" class="w3-padding-large">About</a></li>
-                                <li class="w3-hide-small w3-dropdown-hover">
-                                    <a href="javascript:void(0)" class="w3-hover-none w3-padding-large" title="More">MORE <i class="fa fa-caret-down"></i></a>
-                                    <div class="w3-dropdown-content w3-white w3-card-4">
-                                        <a href="#">Item1</a>
-                                        <a href="#">Item2</a>
-                                        <a href="#">Item3</a>
-                                    </div>
-                                </li>
+                                {% if logged == True %} 
+                                <li class="w3-hide-small"><a href="{{url_for("show_user_profile")}}" class="w3-padding-large">Profile</a></li>
+                                {% endif %}
+                            
                             </ul>
                         </div>
                         
