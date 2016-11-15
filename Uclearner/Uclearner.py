@@ -10,7 +10,7 @@ tmpl_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
 app = Flask(__name__, template_folder=tmpl_dir)
 
 # configuration
-DATABASEURI = 'postgresql://postgres:zes8lami2LH@localhost/laundryapp'
+DATABASEURI = 'postgresql://postgres:allah@localhost/laundryapp'
 DATABASE = '/tmp/flaskr.db'
 DEBUG = True
 SECRET_KEY = 'development key'
@@ -44,6 +44,9 @@ def teardown_request(exception):
   At the end of the web request, this makes sure to close the database connection.
   If you don't the database could run out of memory!
   """
+  session.pop('logged_in', None)
+  session.pop('user_id', None)
+  session.clear()
   try:
     g.conn.close()
   except Exception as e:
@@ -101,6 +104,7 @@ def show_user_profile():
       for result in cursor:
           user.append(list(result))  # can also be accessed using result[0]
       cursor.close()
+      print(user)
       cursor = g.conn.execute("select o.order_id, o.total, o.status, o.date_created from order_table o where o.cid=%s", session['user_id'])
       order_history = []
       for result in cursor:
@@ -185,10 +189,18 @@ def order():
   print ('In order')
   if 'logged_in' in session and session['logged_in']:
     if request.method == 'POST':
+      print(session['user_id'])
+      print ('user_id is after')
       cursor = g.conn.execute("select a.street, a.apt, a.city, a.state, a.zipcode, c.fname, c.lname, p.cnumber, p.cvv from customer c, payment_info p, address a where c.cid = a.cid and p.cid = c.cid and c.cid=%s", session['user_id'])
       payment_info = []
       for result in cursor:
          payment_info.append(list(result))  # can also be accessed using result[0]
+      cursor.close()
+      if len(payment_info) == 0:
+        cursor = g.conn.execute("select a.street, a.apt, a.city, a.state, a.zipcode, c.fname, c.lname from customer c, address a where c.cid = a.cid and c.cid=%s", session['user_id'])
+        payment_info = []
+        for result in cursor:
+          payment_info.append(list(result))  # can also be accessed using result[0]
       cursor.close()
       print (payment_info)
       order_total = request.form['totalsum']
@@ -199,6 +211,7 @@ def order():
       session['qty'] = qty
       session['payment_info'] = payment_info
       #return redirect(url_for('checkout')
+      print ('before render')
       return render_template('checkout.html', my_list=payment_info, order_total=order_total)
   return redirect(url_for('login'))
 
@@ -292,7 +305,31 @@ def logout():
     return redirect(url_for('template_test'))
 
 # set the secret key.  keep this really secret:
-if __name__ == '__main__':
-  app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
-  app.run(debug=True)
+if __name__ == "__main__":
+  import click
+  @click.command()
+  @click.option('--debug', is_flag=True)
+  @click.option('--threaded', is_flag=True)
+  @click.argument('HOST', default='0.0.0.0')
+  @click.argument('PORT', default=8111, type=int)
+  def run(debug, threaded, host, port):
+    """
+    This function handles command line parameters.
+    Run the server using
+
+        python server.py
+
+    Show the help text using
+
+        python server.py --help
+
+    """
+    app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
+    HOST, PORT = host, port
+    print ("running on %s:%d" % (HOST, PORT))
+    app.run(host=HOST, port=PORT, debug=debug, threaded=threaded)
+
+
+  run()
+
 
