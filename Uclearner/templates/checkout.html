@@ -14,7 +14,7 @@
                             function addDate(){
                                 var someDate = new Date(), dateArray = new Array(),dd,mm,y;
                                 
-                                for(i = 0; i<5; i++) {
+                                for(i = 0; i<6; i++) {
                                     someDate.setDate(someDate.getDate() + i+1);
                                     dd = someDate.getDate();
                                     mm = someDate.getMonth() + 1;
@@ -28,7 +28,7 @@
 
                             }
                         
-                        function addSelect(divname) {
+                        function addSelect1(divname) {
                             var newDiv=document.createElement('div');
                             var html = '<select name="date-pick-up" class="w3-select w3-rest w3-border">', dates = addDate(), i;
                             for(i = 0; i < dates.length; i++) {
@@ -38,6 +38,18 @@
                             newDiv.innerHTML= html;
                             document.getElementById(divname).appendChild(newDiv);
                         }
+                        
+                        function addSelect2(divname) {
+                            var newDiv=document.createElement('div');
+                            var html = '<select name="date-delivery" class="w3-select w3-rest w3-border">', dates = addDate(), i;
+                            for(i = 0; i < dates.length; i++) {
+                                html += "<option value='"+dates[i]+"'>"+dates[i]+"</option>";
+                            }
+                            html += '</select>';
+                            newDiv.innerHTML= html;
+                            document.getElementById(divname).appendChild(newDiv);
+                        }
+                        
                         
  
                         </script>
@@ -50,7 +62,7 @@
                 <li class="w3-hide-medium w3-hide-large w3-opennav w3-right">
                     <a class="w3-padding-large" href="javascript:void(0)" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
                 </li>
-                <li><a href="#" class="w3-hover-none w3-hover-text-grey w3-padding-large">HOME</a></li>
+                <li><a href="/" class="w3-hover-none w3-hover-text-grey w3-padding-large">HOME</a></li>
                 <li class="w3-hide-small"><a href="{{url_for("login")}}" class="w3-padding-large">Log in</a></li>
                 <li class="w3-hide-small"><a href="{{url_for("signup")}}" class="w3-padding-large">Sign up</a></li>
                 <li class="w3-hide-small"><a href="{{url_for("about")}}" class="w3-padding-large">About</a></li>
@@ -73,7 +85,7 @@
                     <h3>Order info</h3>
                 </div>
                 
-                <form  class="w3-container w3-blue" action="{{ url_for('show_user_profile') }}" method="post" name="personal">
+                <form  class="w3-container w3-blue" action="{{ url_for('login') }}" method="post" name="personal">
                     
                     
                     <label class="w3-label w3-large w3-text-white"><b>Total Amount</b></label>
@@ -98,29 +110,16 @@
                     <div class="w3-row-padding">
                 
 
-                    <div id= "select-container" class="w3-half w3-container>
-                        <button id="pick-up-date" onclick= "addSelect('select-container');this.onclick=null;" class="w3-btn w3-col w3-light-grey" >Date</button>
+                    <div id= "select-container1" class="w3-half w3-container>
+                        <button id="pick-up-date" onclick= "addSelect1('select-container1');this.onclick=null;" class="w3-btn w3-col w3-light-grey" >Pick Up Date</button>
                     </div>
                     
-                    <div class="w3-half w3-container>
-                    <label class="w3-label  w3-col w3-large w3-text-white"><b>Time</b></label>
-                    <select class="w3-select w3-rest w3-border" name="time-pick-up",id="time-pick-up">
-                    <option value="" selected="selected">(please select a time period)</option>
-                    <option value="9:00AM-10:00AM">9:00AM-10:00AM</option>
-                    <option value="10:00AM-11:00AM">10:00AM-11:00AM</option>
-                    <option value="11:00AM-12:00PM">11:00AM-12:00PM</option>
-                    <option value="12:00PM-01:00PM">12:00PM-01:00PM</option>
-                    <option value="01:00PM-02:00PM">01:00PM-02:00PM</option>
-                    <option value="02:00PM-03:00PM">02:00PM-03:00PM</option>
-                    <option value="03:00PM-04:00PM">03:00PM-04:00PM</option>
-                    <option value="04:00PM-05:00PM">04:00PM-05:00PM</option>
-                    <option value="05:00PM-06:00PM">05:00PM-06:00PM</option>
-                    <option value="06:00PM-07:00PM">06:00PM-07:00PM</option>
-                    <option value="07:00PM-08:00PM">07:00PM-08:00PM</option>
-                    <option value="08:00PM-09:00PM">08:00PM-09:00PM</option>
-                    </select>
+                    <div id= "select-container2" class="w3-half w3-container>
+                    <button id="delivery-date" onclick= "addSelect2('select-container2');this.onclick=null;" class="w3-btn w3-col w3-light-grey" >Delivery Date</button>
                     </div>
-                    </div>
+                    
+                    
+                </div>
                      <p>
                      <button type="submit" class="w3-btn w3-light-grey w3-hover">Check out</button></p>
                                                                 
