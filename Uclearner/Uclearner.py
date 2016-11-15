@@ -86,10 +86,10 @@ def show_store_profile(laundry_id):
     cursor = g.conn.execute("select item_type, price from item")
     for result in cursor:
       items.append(list(result))  # can also be accessed using result[0]
-    print (items)
+    session['item_type'] = items
     return render_template('laundromat.html', my_list=info, review=reviews, priceList=items, title="Store Profile")
 
-@app.route('/user/profile')
+@app.route('/user/profile', methods=['POST', 'GET'])
 def show_user_profile():
     print("In user profile")
     print(session['user_id'])
@@ -140,13 +140,48 @@ def about():
 @app.route("/checkout", methods=['POST'])
 def checkout():
   print ('In checkout')
-  order_total = request.form['totalsum']
-  print (order_total)
-  order_items = request.form.getlist("total")
-  print (order_items)
-  qty = request.form.getlist("qty")
-  print (qty)
-  return render_template('checkout.html')
+  if 'logged_in' in session and session['logged_in']:
+    if request.method == 'POST':
+      cursor = g.conn.execute("select c.fname, c.lname, c.email, c.phone, a.street, a.apt, a.city, a.state, a.zipcode from customer c, address a where c.cid = a.cid and c.cid=%s", session['user_id'])
+      user = []
+      for result in cursor:
+         user.append(list(result))  # can also be accessed using result[0]
+      print (user)
+      cursor.close()
+      order_total = request.form['totalsum']
+      print (order_total)
+      order_items = request.form.getlist("total")
+      print (order_items)
+      qty = request.form.getlist("qty")
+      print (qty)
+      return render_template('checkout.html')
+  return redirect(url_for('login'))
+
+@app.route("/order", methods=['POST'])
+def order():
+  print ('In order')
+  if 'logged_in' in session and session['logged_in']:
+    if request.method == 'POST':
+      cursor = g.conn.execute("select a.street, a.apt, a.city, a.state, a.zipcode, c.fname, c.lname, p.cnumber, p.cvv, from customer c, payment_info p, address a where c.cid = a.cid and p.cid = c.cid and c.cid=%s", session['user_id'])
+      payment_info = []
+      for result in cursor:
+         user.append(list(result))  # can also be accessed using result[0]
+      print (user)
+      cursor.close()
+      order_total = request.form['totalsum']
+      print (order_total)
+      order_items = request.form.getlist("total")
+      print (order_items)
+      qty = request.form.getlist("qty")
+      print (qty)
+      session['order_total'] = order_total
+      session['order_items'] = order_total
+      session['qty'] = qty
+      session['payment_info'] = payment_info
+      print(session['payment_info'])
+      #return redirect(url_for('checkout')
+      return render_template('checkout.html', my_list=payment_info, order_total=order_total, logged = islogged)
+  return redirect(url_for('login'))
 
 @app.route("/signup", methods=['POST','GET'])
 def signup():
@@ -187,13 +222,6 @@ def signup():
         return login()
     return render_template('signup.html')
 
-@app.route("/order")
-def order():
-    return render_template('order.html')
-
-#@app.route("/login")
-#def login():
-#    return render_template('login.html')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
